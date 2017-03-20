@@ -3,11 +3,13 @@
  * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
 
-import { combineReducers } from 'redux-immutable';
-import { fromJS } from 'immutable';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { combineReducers } from 'redux-immutable'
+import { fromJS } from 'immutable'
+import { LOCATION_CHANGE } from 'react-router-redux'
 
-import languageProviderReducer from 'containers/LanguageProvider/reducer';
+import languageProviderReducer from 'containers/LanguageProvider/reducer'
+import FilterButtonReducer from 'containers/FilterButton/reducer'
+import homePageReducer from 'containers/HomePage/reducer'
 
 /*
  * routeReducer
@@ -44,6 +46,8 @@ export default function createReducer(asyncReducers) {
   return combineReducers({
     route: routeReducer,
     language: languageProviderReducer,
+    todoList: homePageReducer,
+    todoFilters: FilterButtonReducer,
     ...asyncReducers,
   });
 }

@@ -41,6 +41,7 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
     const { todos, activeFilter, toggle, isFetching, onChangeForm, postForm, newTodo } = this.props
     return (
       <section>
+        <h1>Todo List</h1>
         {
           !isFetching.todos ?
             <div>

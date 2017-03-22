@@ -1,1 +1,1 @@
-# back-end-nova-workshop
+# front-end-nova-workshop

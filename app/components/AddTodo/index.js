@@ -17,7 +17,7 @@ const Div = styled.div`
 
 export class AddTodo extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { onChangeForm, submit, newTodo } = this.props
+    const { onChangeForm, submit, newTodo, loading } = this.props
     return (
       <Div>
         <FormControl
@@ -26,7 +26,7 @@ export class AddTodo extends React.Component { // eslint-disable-line react/pref
           value={newTodo}
           onChange={(e) => onChangeForm(e.target.value)}
         />
-        <Button bsStyle="primary" onClick={submit} >
+        <Button bsStyle="primary" onClick={submit} loading={loading}>
           add note
         </Button>
       </Div>
@@ -37,7 +37,8 @@ export class AddTodo extends React.Component { // eslint-disable-line react/pref
 AddTodo.propTypes = {
   onChangeForm: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
-  newTodo: PropTypes.string
+  newTodo: PropTypes.string,
+  loading: PropTypes.bool
 }
 
 export default AddTodo

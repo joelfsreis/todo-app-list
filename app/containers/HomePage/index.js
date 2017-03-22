@@ -8,15 +8,16 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import { createStructuredSelector } from 'reselect'
+
 import TodoList from 'components/TodoList'
 import TodoVisibility from 'components/TodoVisibility'
 import AddTodo from 'components/AddTodo'
-import { selectVisibilityFilter } from 'containers/FilterButton/selectors'
-
+import Error from 'components/Error'
 import Loader from 'components/Loader'
 
-import { selectTodosList, selectIsFetching, selectNewTodo } from './selectors'
-import { fetchTodos, toggleTodo, updateForm, submitForm } from './actions'
+import { selectVisibilityFilter } from 'containers/FilterButton/selectors'
+import { selectTodosList, selectIsFetching, selectNewTodo, selectError } from './selectors'
+import { fetchTodos, toggleTodo, updateForm, submitForm, clearError } from './actions'
 
 export class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
@@ -38,12 +39,19 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
   }
 
   render() {
-    const { todos, activeFilter, toggle, isFetching, onChangeForm, postForm, newTodo } = this.props
+    const { todos, activeFilter, toggle, isFetching, onChangeForm, postForm, newTodo, error, clear } = this.props
+    const fetching = isFetching.toJS()
     return (
       <section>
         <h1>Todo List</h1>
         {
-          !isFetching.todos ?
+          error ?
+            <Error error={error} clear={clear} />
+          :
+            null
+        }
+        {
+          !fetching.todos ?
             <div>
               <TodoVisibility />
               <TodoList
@@ -52,7 +60,7 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
                 // TODO: implement delete action
                 deleteTodo={(id) => console.log(id)}
               />
-              <AddTodo onChangeForm={onChangeForm} submit={postForm} newTodo={newTodo} />
+              <AddTodo onChangeForm={onChangeForm} submit={postForm} newTodo={newTodo} loading={fetching.submit} />
             </div>
           :
             <Loader />
@@ -70,14 +78,17 @@ HomePage.propTypes = {
   isFetching: PropTypes.object,
   onChangeForm: PropTypes.func,
   postForm: PropTypes.func,
-  newTodo: PropTypes.string
+  newTodo: PropTypes.string,
+  error: PropTypes.string,
+  clear: PropTypes.func
 }
 
 const mapStateToProps = createStructuredSelector({
   activeFilter: selectVisibilityFilter(),
   todos: selectTodosList(),
   isFetching: selectIsFetching(),
-  newTodo: selectNewTodo()
+  newTodo: selectNewTodo(),
+  error: selectError()
 })
 
 function mapDispatchToProps(dispatch) {
@@ -85,7 +96,8 @@ function mapDispatchToProps(dispatch) {
     fetchTodos: () => dispatch(fetchTodos()),
     toggle: (id) => dispatch(toggleTodo(id)),
     onChangeForm: (todo) => dispatch(updateForm(todo)),
-    postForm: () => dispatch(submitForm())
+    postForm: () => dispatch(submitForm()),
+    clear: () => dispatch(clearError())
   }
 }
 

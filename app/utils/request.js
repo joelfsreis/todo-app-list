@@ -3,7 +3,16 @@ import { call, race } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
 // Rails API URL
-const baseURL = 'http://10.11.12.13:3001'
+const baseURL = 'http://localhost:8080'
+
+/**
+ * Static Headers
+ *
+ */
+const staticHeaders = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json'
+}
 
 /**
  * Requests a URL, returning a promise
@@ -19,14 +28,14 @@ export default function* request(req : Object) {
   const { response } = yield race({
     response: call(fetch, baseURL + url, {
       method,
-      headers,
+      headers: { staticHeaders, ...headers },
       body
     }),
     timeout: call(delay, 15 * 1000)
   })
   if (response) {
     if (!response.ok) {
-      const error = new Error(`Something went wrong... [status=${response.status}]`)
+      const error = new Error(`Something went wrong... Please try again [error status=${response.status}]`)
       error.responseJSON = yield response.json()
       throw error
     }

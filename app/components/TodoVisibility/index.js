@@ -14,7 +14,7 @@ const TodosVisibility = styled.p`
   > button:nth-of-type(1) {
     margin-left: 16px;
   }
-  button { font-family: "Helvetica Neue"; }
+  button { font-family: monospace; }
 `
 
 class TodoVisibility extends React.Component { // eslint-disable-line react/prefer-stateless-function

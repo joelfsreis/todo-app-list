@@ -16,10 +16,25 @@ export const selectTodosList = () => createSelector(
 
 export const selectIsFetching = () => createSelector(
   selectTodosListDomain(),
-  (substate) => substate.get('isFetching', {})
+  (substate) => substate.get('isFetching', new Map({}))
 )
 
 export const selectNewTodo = () => createSelector(
   selectTodosListDomain(),
   (substate) => substate.getIn(['form', 'todo'], '')
+)
+
+export const selectToggleTodoId = () => createSelector(
+  selectTodosListDomain(),
+  (substate) => substate.getIn(['form', 'toggleTodo', 'id'])
+)
+
+export const selectToggleTodoCompleted = () => createSelector(
+  selectTodosListDomain(),
+  (substate) => substate.getIn(['form', 'toggleTodo', 'completed'])
+)
+
+export const selectError = () => createSelector(
+  selectTodosListDomain(),
+  (substate) => substate.get('error')
 )

@@ -9,10 +9,13 @@ import {
   FETCH_TODOS_SUCCESS,
   FETCH_TODOS_ERROR,
   TOGGLE_TODO,
+  TOGGLE_TODO_SUCCESS,
+  TOGGLE_TODO_ERROR,
   ON_KEY_CHANGE,
   SUBMIT_FORM,
   SUBMIT_FORM_SUCCESS,
-  SUBMIT_FORM_ERROR
+  SUBMIT_FORM_ERROR,
+  CLEAR_ERROR
 } from './constants'
 
 export function fetchTodos() {
@@ -42,6 +45,20 @@ export function toggleTodo(id) {
   }
 }
 
+export function toggleTodoSuccess(todos) {
+  return {
+    type: TOGGLE_TODO_SUCCESS,
+    todos
+  }
+}
+
+export function toggleTodoError(error) {
+  return {
+    type: TOGGLE_TODO_ERROR,
+    error
+  }
+}
+
 export function updateForm(todo) {
   return {
     type: ON_KEY_CHANGE,
@@ -66,5 +83,11 @@ export function submitFormError(error) {
   return {
     type: SUBMIT_FORM_ERROR,
     error
+  }
+}
+
+export function clearError() {
+  return {
+    type: CLEAR_ERROR
   }
 }

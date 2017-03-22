@@ -52,7 +52,9 @@ function homePageReducer(state = initialState, action) {
     case FETCH_TODOS_ERROR:
     case TOGGLE_TODO_ERROR:
     case SUBMIT_FORM_ERROR:
-      return state.set('error', action.error)
+      return state
+        .set('error', action.error)
+        .delete('isFetching')
     case CLEAR_ERROR:
       return state.delete('error')
     default:
